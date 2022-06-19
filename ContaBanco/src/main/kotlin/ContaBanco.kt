@@ -1,77 +1,91 @@
-class ContaBanco(
+abstract class ContaBanco(
     open val numConta: Int,
-    protected val tipo: String, // CC e CP
+    protected val tipo: String,
     private val dono: String,
-    private var saldo: Double,
+    protected var saldo: Double,
     private var status: Boolean
 ) {
 
-    fun abrirConta(tipo: Boolean) {
-        if (this.tipo == "Conta Corrente") {
-            this.saldo += 50.0
-            println("Sua conta corrente foi criada com sucesso")
-        } else if (this.tipo == "Conta Poupança") {
-            this.saldo += 150.0
-            println("Sua conta poupança foi criada com sucesso")
-        } else {
-            println("Sua conta não pôde ser criada")
+    fun abrirConta(SALDO_INICIAL: Double) {
+        this.saldo = SALDO_INICIAL
+        println("Seu saldo inicial é de R$ ${SALDO_INICIAL}.")
+    }
+
+    fun pagarMensal(TAXA_MENSALIDADE: Double) {
+        if (this.saldo >= TAXA_MENSALIDADE) {
+            diminuiSaldo(TAXA_MENSALIDADE)
+            println("Pagamento da taxa de mensalidade de R$ ${TAXA_MENSALIDADE}.")
         }
     }
 
     fun depositar(valor: Double) {
-        if (this.status == true){
+        if (this.status == true) {
             this.saldo += valor
-            println("Depósito efetuado com sucesso")
-        }else{
-            println("Impossível depositar")
+            println("Depósito de R$ ${valor} efetuado com sucesso.")
+        } else {
+            println("Impossível depositar.")
         }
     }
 
     fun sacar(valor: Double) {
-        if (this.status == true && this.saldo >= valor) {
-            this.saldo - valor
-            println("Saque efetuado com sucesso")
+        if (this.saldo >= valor) {
+            this.saldo -= valor
+            println("Saque de R$ ${valor} efetuado com sucesso.")
         } else {
-            println("Saldo insuficiente")
+            println("Saldo insuficiente.")
         }
     }
 
-    fun fecharConta() {
-        if (this.saldo == 0.0) {
-            println("Conta encerrada com sucesso")
-        } else if (this.saldo < 0.0) {
-            println("Pague seu débito antes de encerrar a conta")
+    fun transferir(valor: Double, destino: ContaBanco) {
+        if (this.saldo >= valor) {
+            diminuiSaldo(valor)
+            destino.saldo += valor
+            println("Transferência de R$ ${valor} efetuada com sucesso.")
         } else {
-            (this.saldo > 0.0)
-            println("Saque o seu dinheiro ")
+            println("Saldo insuficiente.")
         }
+    }
 
-        fun pagarMensal(valor: Double) {
-            if (this.tipo == "Conta Corrente" && this.saldo > valor) {
-                this.saldo - 12
-                println("Pagamento da taxa de R$20")
-            } else if (this.tipo == "Conta Poupança" && this.saldo > valor) {
-                this.saldo - 20
-                println("Pagamento da taxa de R$12")
+        fun fecharConta() {
+            if (this.saldo == 0.0) {
+                println("Conta encerrada com sucesso.")
+            } else if (this.saldo < 0.0) {
+                println("Pague seu débito antes de encerrar a conta.")
+            } else {
+                (this.saldo > 0.0)
+                println("Saque o seu dinheiro antes de encerrar a conta.")
             }
         }
-    }
 
-    //criar uma função get é uma maneira de mostrar um atributo privado
-    fun getSaldo(): Double {
-        return this.saldo
-    }
+        @JvmName("getSaldo1")
+        fun getSaldo(): Double {
+            return this.saldo
+        }
 
-    fun getDono(): String{
-        return this.dono
-    }
+        @JvmName("setSaldo1")
+        fun setSaldo(saldo: Double) {
+            this.saldo = saldo
+        }
 
-    fun getStatus(): Boolean {
-        return this.status
-    }
-    @JvmName("getTipo1")
-    fun getTipo(): String {
-        return this.tipo
-    }
+        fun diminuiSaldo(valor: Double) {
+            this.saldo -= valor
+        }
 
-}
+        fun acrescentaSaldo(valor: Double) {
+            this.saldo += valor
+        }
+
+        fun getDono(): String {
+            return this.dono
+        }
+
+        fun getStatus(): Boolean {
+            return this.status
+        }
+
+        @JvmName("getTipo1")
+        fun getTipo(): String {
+            return this.tipo
+        }
+
+    }

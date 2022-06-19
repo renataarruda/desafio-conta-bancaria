@@ -1,33 +1,53 @@
 fun testaComportamentosConta() {
 
-    val contaJubileu = ContaBanco(
+    val contaJubileu = ContaCorrente(
         numConta = 30,
-        tipo = "Conta Corrente",
         dono = "Jubileu",
         saldo = 0.0,
-        status = false
+        status = true
+    )
+
+    val contaCreuza = ContaPoupanca(
+        numConta = 25,
+        dono = "Creuza",
+        saldo = 0.0,
+        status = true
     )
 
     println("Abrindo a Conta Corrente do Jubileu: ")
-    println(contaJubileu.numConta)
-    println(contaJubileu.getTipo())
-    println(contaJubileu.getDono())
-    println(contaJubileu.getSaldo())
-    println(contaJubileu.getStatus())
+    println("Número: ${contaJubileu.numConta}")
+    println("Tipo: ${contaJubileu.getTipo()}")
+    println("Dono: ${contaJubileu.getDono()}")
+    println("Seu saldo é de R$: ${contaJubileu.getSaldo()}")
+    println("Status: ${contaJubileu.getStatus()}")
 
-    val contaCreuza = ContaBanco(
-        numConta = 25,
-        tipo = "Conta Poupança",
-        dono = "Creuza",
-        saldo = 0.0,
-        status = false
-    )
+    contaJubileu.abrirConta()
+    contaJubileu.depositar(100.0)
+    println("Seu saldo é de R$: ${contaJubileu.getSaldo()}")
+    contaJubileu.pagarMensal()
+    println("Seu saldo é de R$: ${contaJubileu.getSaldo()}")
+    contaJubileu.sacar(20.0)
+    println("Seu saldo é de R$: ${contaJubileu.getSaldo()}")
+    contaJubileu.fecharConta()
+    contaJubileu.transferir(118.0, contaCreuza)
+    println("Seu saldo é de R$: ${contaJubileu.getSaldo()}")
+    contaJubileu.fecharConta()
 
     println("Abrindo a Conta Poupança da Creuza: ")
     println("Número: ${contaCreuza.numConta}")
     println("Tipo: ${contaCreuza.getTipo()}")
     println("Nome: ${contaCreuza.getDono()}")
-    println(contaCreuza.getSaldo())
-    println(contaCreuza.getStatus())
+    println("Saldo: ${contaCreuza.getSaldo()}")
+    println("Status: ${contaCreuza.getStatus()}")
+
+    contaCreuza.abrirConta()
+    contaCreuza.depositar(500.0)
+    println("Seu saldo é de R$: ${contaCreuza.getSaldo()}")
+    contaCreuza.pagarMensal()
+    println("Seu saldo é de R$: ${contaCreuza.getSaldo()}")
+    contaCreuza.sacar(40.0)
+    println("Seu saldo é de R$: ${contaCreuza.getSaldo()}")
+    contaCreuza.fecharConta()
+    println("Seu saldo é de R$: ${contaCreuza.getSaldo()}")
 
 }
